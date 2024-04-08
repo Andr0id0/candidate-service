@@ -1,0 +1,124 @@
+databaseChangeLog:
+  - changeSet:
+      id: createDirectionTable
+      author: your_name
+      changes:
+        - createTable:
+            tableName: direction
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: createCandidateTable
+      author: your_name
+      changes:
+        - createTable:
+            tableName: candidate
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: father_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CV
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: createCandidateTestTable
+      author: your_name
+      changes:
+        - createTable:
+            tableName: candidate_test
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: test_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseTableName: candidateTest
+                  referencedTableName: candidate
+                  references:
+                    columnName: candidate_id
+                    referencedColumnName: id
+              - foreignKeyConstraint:
+                  baseTableName: candidateTest
+                  referencedTableName: test
+                  references:
+                    columnName: test_id
+                    referencedColumnName: id
+
+  - changeSet:
+      id: createTestTable
+      author: your_name
+      changes:
+        - createTable:
+            tableName: test
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

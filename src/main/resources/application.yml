@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  servlet:
+    context-path:
+
+spring:
+  application:
+    name: candidate-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/CandidateService
+  #    url: jdbc:postgresql://localhost:5432/CandidateService
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+#  sleuth:
+#    sampler:
+#      probability: 1.0
