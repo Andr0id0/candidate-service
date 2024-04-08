@@ -9,7 +9,7 @@ services:
     container_name: postgres
     image: postgres:13.3
     environment:
-      POSTGRES_DB: CandidateService
+      POSTGRES_DB: Candidate
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:

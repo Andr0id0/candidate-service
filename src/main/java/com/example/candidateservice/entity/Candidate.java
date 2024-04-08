@@ -1,25 +1,13 @@
 package com.example.candidateservice.entity;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
+import lombok.*;
 
 
-import java.io.File;
 import java.util.Set;
 
-
+@ToString
 @Table
 @Entity
 @Setter
@@ -30,7 +18,7 @@ public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String lastName;
@@ -41,11 +29,14 @@ public class Candidate {
     @Column(nullable = false)
     private String fatherName;
 
+//    @Lob
+    private byte[] photo;
+
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private long CV;
+//    @Lob
+    private byte[] CV;
 
     @ManyToMany
     @JoinTable(

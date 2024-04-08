@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: createDirectionTable
-      author: your_name
+      author: Ilyutsik Andrei
       changes:
         - createTable:
             tableName: direction
@@ -22,10 +22,74 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: test_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: create-direction_like-table
+      author: Ilyutsik Andrei
+      changes:
+        - createTable:
+            tableName: direction_like
+            columns:
+              - column:
+                  name: candidate_id
+                  type: bigint
+              - column:
+                  name: direction_id
+                  type: bigint
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  name: fk_direction_like_candidate
+                  baseTableName: direction_like
+                  baseColumnNames: candidate_id
+                  referencedTableName: candidate
+                  referencedColumnNames: id
+              - foreignKeyConstraint:
+                  name: fk_direction_like_direction
+                  baseTableName: direction_like
+                  baseColumnNames: direction_id
+                  referencedTableName: direction
+                  referencedColumnNames: id
+
+  - changeSet:
+      id: create-direction_test-table
+      author: Ilyutsik Andrei
+      changes:
+        - createTable:
+            tableName: direction_test
+            columns:
+              - column:
+                  name: test_id
+                  type: bigint
+              - column:
+                  name: direction_id
+                  type: bigint
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  name: fk_direction_test_test
+                  baseTableName: direction_test
+                  baseColumnNames: test_id
+                  referencedTableName: test
+                  referencedColumnNames: id
+              - foreignKeyConstraint:
+                  name: fk_direction_test_direction
+                  baseTableName: direction_test
+                  baseColumnNames: direction_id
+                  referencedTableName: direction
+                  referencedColumnNames: id
 
   - changeSet:
       id: createCandidateTable
-      author: your_name
+      author: Ilyutsik Andrei
       changes:
         - createTable:
             tableName: candidate
@@ -52,19 +116,27 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: photo
+                  type: bytea
+
+              - column:
                   name: description
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: CV
+                  name: cv
+                  type: bytea
+
+              - column:
+                  name: direction_id
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
 
   - changeSet:
       id: createCandidateTestTable
-      author: your_name
+      author: Ilyutsik Andrei
       changes:
         - createTable:
             tableName: candidate_test
@@ -85,6 +157,16 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
             foreignKeyConstraints:
               - foreignKeyConstraint:
                   baseTableName: candidateTest
@@ -101,7 +183,7 @@ databaseChangeLog:
 
   - changeSet:
       id: createTestTable
-      author: your_name
+      author: Ilyutsik Andrei
       changes:
         - createTable:
             tableName: test
@@ -122,3 +204,8 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: direction_id
+                  type: bigint
+                  constraints:
+                    nullable: true

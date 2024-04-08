@@ -27,7 +27,7 @@ public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -38,7 +38,7 @@ public class Test {
     @ManyToMany
     @JoinTable(
             name = "direction_test",
-            joinColumns = @JoinColumn(name = "candidate_id"),
+            joinColumns = @JoinColumn(name = "test_id"),
             inverseJoinColumns = @JoinColumn(name = "direction_id"))
     private Set<Direction> directions;
 
