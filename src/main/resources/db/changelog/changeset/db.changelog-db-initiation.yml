@@ -1,94 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: createDirectionTable
-      author: Ilyutsik Andrei
-      changes:
-        - createTable:
-            tableName: direction
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: name
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: candidate_id
-                  type: bigint
-                  constraints:
-                    nullable: true
-              - column:
-                  name: test_id
-                  type: bigint
-                  constraints:
-                    nullable: true
-
-  - changeSet:
-      id: create-direction_like-table
-      author: Ilyutsik Andrei
-      changes:
-        - createTable:
-            tableName: direction_like
-            columns:
-              - column:
-                  name: candidate_id
-                  type: bigint
-              - column:
-                  name: direction_id
-                  type: bigint
-            foreignKeyConstraints:
-              - foreignKeyConstraint:
-                  name: fk_direction_like_candidate
-                  baseTableName: direction_like
-                  baseColumnNames: candidate_id
-                  referencedTableName: candidate
-                  referencedColumnNames: id
-              - foreignKeyConstraint:
-                  name: fk_direction_like_direction
-                  baseTableName: direction_like
-                  baseColumnNames: direction_id
-                  referencedTableName: direction
-                  referencedColumnNames: id
-
-  - changeSet:
-      id: create-direction_test-table
-      author: Ilyutsik Andrei
-      changes:
-        - createTable:
-            tableName: direction_test
-            columns:
-              - column:
-                  name: test_id
-                  type: bigint
-              - column:
-                  name: direction_id
-                  type: bigint
-            foreignKeyConstraints:
-              - foreignKeyConstraint:
-                  name: fk_direction_test_test
-                  baseTableName: direction_test
-                  baseColumnNames: test_id
-                  referencedTableName: test
-                  referencedColumnNames: id
-              - foreignKeyConstraint:
-                  name: fk_direction_test_direction
-                  baseTableName: direction_test
-                  baseColumnNames: direction_id
-                  referencedTableName: direction
-                  referencedColumnNames: id
-
-  - changeSet:
-      id: createCandidateTable
+      id: create-table-candidate
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -96,17 +8,12 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
-                  autoIncrement: true
+                  type: bigserial
                   constraints:
                     primaryKey: true
-              - column:
-                  name: last_name
-                  type: varchar(255)
-                  constraints:
                     nullable: false
               - column:
-                  name: first_name
+                  name: description
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -116,39 +23,108 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: photo
-                  type: bytea
-
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
               - column:
-                  name: description
+                  name: last_name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
                   name: cv
                   type: bytea
-
               - column:
-                  name: direction_id
-                  type: bigint
-                  constraints:
-                    nullable: true
+                  name: photo
+                  type: bytea
 
   - changeSet:
-      id: createCandidateTestTable
+      id: create-table-candidate-test
       author: Ilyutsik Andrei
       changes:
         - createTable:
             tableName: candidate_test
             columns:
               - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
+                  name: date
+                  type: date
                   constraints:
-                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: score
+                  type: integer
+                  constraints:
+                    nullable: false
               - column:
                   name: candidate_id
+                  type: bigint
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: test_id
+                  type: bigint
+
+  - changeSet:
+      id: create-table-direction
+      author: Ilyutsik Andrei
+      changes:
+        - createTable:
+            tableName: direction
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-table-direction-candidate
+      author: Ilyutsik Andrei
+      changes:
+        - createTable:
+            tableName: direction_candidate
+            columns:
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: direction_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            primaryKey:
+              name: pk_direction_candidate
+              columnNames:
+                - candidate_id
+                - direction_id
+
+  - changeSet:
+      id: create-table-direction-test
+      author: Ilyutsik Andrei
+      changes:
+        - createTable:
+            tableName: direction_test
+            columns:
+              - column:
+                  name: direction_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -157,32 +133,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-              - column:
-                  name: date
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: score
-                  type: int
-                  constraints:
-                    nullable: false
-            foreignKeyConstraints:
-              - foreignKeyConstraint:
-                  baseTableName: candidateTest
-                  referencedTableName: candidate
-                  references:
-                    columnName: candidate_id
-                    referencedColumnName: id
-              - foreignKeyConstraint:
-                  baseTableName: candidateTest
-                  referencedTableName: test
-                  references:
-                    columnName: test_id
-                    referencedColumnName: id
+            primaryKey:
+              name: pk_direction_test
+              columnNames:
+                - direction_id
+                - test_id
 
   - changeSet:
-      id: createTestTable
+      id: create-table-test
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -190,14 +148,9 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
-                  autoIncrement: true
+                  type: bigserial
                   constraints:
                     primaryKey: true
-              - column:
-                  name: name
-                  type: varchar(255)
-                  constraints:
                     nullable: false
               - column:
                   name: description
@@ -205,7 +158,65 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: direction_id
-                  type: bigint
+                  name: name
+                  type: varchar(255)
                   constraints:
-                    nullable: true
+                    nullable: false
+
+  - changeSet:
+      id: add-foreign-keys
+      author: Ilyutsik Andrei
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: candidate_test
+            baseColumnNames:
+              - candidate_id
+            referencedTableName: candidate
+            referencedColumnNames:
+              - id
+            constraintName: FKplui0n7u003vi62timvv3uu8d
+
+        - addForeignKeyConstraint:
+            baseTableName: candidate_test
+            baseColumnNames:
+              - test_id
+            referencedTableName: test
+            referencedColumnNames:
+              - id
+            constraintName: FKc73hlfwef3vtfnou0lgtwqi3a
+
+        - addForeignKeyConstraint:
+            baseTableName: direction_candidate
+            baseColumnNames:
+              - direction_id
+            referencedTableName: direction
+            referencedColumnNames:
+              - id
+            constraintName: FKndflrd4s6c8rrl3d8kfdu2lqq
+
+        - addForeignKeyConstraint:
+            baseTableName: direction_candidate
+            baseColumnNames:
+              - candidate_id
+            referencedTableName: candidate
+            referencedColumnNames:
+              - id
+            constraintName: FKmskx5qgffi3fh8dsdh6b181m0
+
+        - addForeignKeyConstraint:
+            baseTableName: direction_test
+            baseColumnNames:
+              - direction_id
+            referencedTableName: direction
+            referencedColumnNames:
+              - id
+            constraintName: FKfcq0u0np3ck8622au29me4tps
+
+        - addForeignKeyConstraint:
+            baseTableName: direction_test
+            baseColumnNames:
+              - test_id
+            referencedTableName: test
+            referencedColumnNames:
+              - id
+            constraintName: FK3jmw3e97resbs6e9d5iajuxy2

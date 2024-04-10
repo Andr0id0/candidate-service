@@ -1,17 +1,16 @@
-package com.example.candidateservice.dto;
+package com.example.candidateservice.dto.Request;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CandidateCreateDto {
 
     @NotNull
@@ -23,12 +22,12 @@ public class CandidateCreateDto {
     @NotNull
     private String fatherName;
 
-    private String photo;
+    private byte[]  photo;
 
     private String description;
 
-    private String CV;
+    private byte[]  CV;
 
-    private Set<Long> directions;
+    private Set<Long> directionsId;
 
 }

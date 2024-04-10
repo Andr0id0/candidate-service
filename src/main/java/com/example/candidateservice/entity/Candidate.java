@@ -7,8 +7,8 @@ import lombok.*;
 
 import java.util.Set;
 
-@ToString
-@Table
+
+@Table(name = "candidate")
 @Entity
 @Setter
 @Getter
@@ -40,7 +40,7 @@ public class Candidate {
 
     @ManyToMany
     @JoinTable(
-            name = "direction_like",
+            name = "direction_candidate",
             joinColumns = @JoinColumn(name = "candidate_id"),
             inverseJoinColumns = @JoinColumn(name = "direction_id"))
     private Set<Direction> directions;

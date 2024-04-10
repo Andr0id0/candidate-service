@@ -30,3 +30,15 @@ services:
       - candidate-service-network
     depends_on:
       - postgres
+
+  candidate-service:
+    container_name: candidate-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - candidate-service-network
+    depends_on:
+      - postgres
