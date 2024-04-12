@@ -5,6 +5,7 @@ import com.example.candidateservice.dto.response.CandidateTestResponseDto;
 import com.example.candidateservice.entity.Candidate;
 import com.example.candidateservice.entity.CandidateTest;
 import com.example.candidateservice.entity.Test;
+import com.example.candidateservice.exeption.ResourceNotFoundException;
 import com.example.candidateservice.mapper.request.CandidateTestCreateMapper;
 import com.example.candidateservice.mapper.response.CandidateTestResponseMapper;
 import com.example.candidateservice.repository.CandidateRepository;
@@ -24,6 +25,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CandidateTestService implements SortAndPaginate {
+
+    private static final String CANDIDATE_TEST_DOMAIN = "CandidateTest";
+
+    private static final String CANDIDATE_DOMAIN = "Candidate";
+
+    private static final String TEST_DOMAIN = "Test";
 
     private final CandidateTestRepository candidateTestRepository;
 
@@ -56,18 +63,20 @@ public class CandidateTestService implements SortAndPaginate {
         if (candidateTest.isPresent()) {
             CandidateTest updatetCandiateTest = candidateTest.get();
             Optional<Candidate> candidate = candidateRepository.findById(candidateId);
-            Optional<Test> test = testRepository.findById(testId);
-            if (candidate.isPresent() && test.isPresent()) {
+            if (candidate.isPresent())
                 updatetCandiateTest.setCandidate(candidate.get());
+            else
+                throw new ResourceNotFoundException(CANDIDATE_DOMAIN, candidateId);
+            Optional<Test> test = testRepository.findById(testId);
+            if (test.isPresent())
                 updatetCandiateTest.setTest(test.get());
-            } else {
-                throw new NoSuchElementException();
-            }
+            else
+                throw new ResourceNotFoundException(TEST_DOMAIN, testId);
             updatetCandiateTest.setDate(LocalDate.now());
             updatetCandiateTest.setScore(score);
             return toDto(candidateTestRepository.save(updatetCandiateTest));
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(CANDIDATE_TEST_DOMAIN, id);
     }
 
     @Transactional
@@ -76,7 +85,7 @@ public class CandidateTestService implements SortAndPaginate {
         if (candidateTest.isPresent()) {
             return toDto(candidateTest.get());
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(CANDIDATE_TEST_DOMAIN, id);
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import com.example.candidateservice.dto.request.CandidateCreateDto;
 import com.example.candidateservice.dto.response.CandidateResponseDto;
 import com.example.candidateservice.entity.Candidate;
 import com.example.candidateservice.entity.Direction;
+import com.example.candidateservice.exeption.ResourceNotFoundException;
 import com.example.candidateservice.mapper.request.CandidateCreateMapper;
 import com.example.candidateservice.mapper.response.CandidateResponseMapper;
 import com.example.candidateservice.repository.CandidateRepository;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,6 +24,8 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class CandidateService implements SortAndPaginate {
+
+    private static final String CANDIDATE_DOMAIN = "Candidate";
 
     private final CandidateRepository candidateRepository;
 
@@ -60,7 +62,7 @@ public class CandidateService implements SortAndPaginate {
             updatetCandidate.setDirections(directions);
             return toDto(candidateRepository.save(updatetCandidate));
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(CANDIDATE_DOMAIN, id);
     }
 
     @Transactional
@@ -69,7 +71,7 @@ public class CandidateService implements SortAndPaginate {
         if (candidate.isPresent()) {
             return toDto(candidate.get());
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(CANDIDATE_DOMAIN, id);
     }
 
     @Transactional

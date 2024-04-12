@@ -89,7 +89,7 @@ public class DirectionController {
                                                                           @RequestParam(required = false) String sortField,
                                                                           @RequestParam(required = false) String sortType,
                                                                           @RequestParam Set<Long> testsId) {
-        List<DirectionResponseDto> direction = directionService.findDirectionByCandidates(page, size, sortField,
+        List<DirectionResponseDto> direction = directionService.findDirectionByTests(page, size, sortField,
                 sortType, testsId);
         return ResponseEntity.ok(direction);
     }

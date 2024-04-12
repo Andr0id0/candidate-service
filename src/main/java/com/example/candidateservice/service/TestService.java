@@ -4,6 +4,7 @@ import com.example.candidateservice.dto.request.TestCreateDto;
 import com.example.candidateservice.dto.response.TestResponseDto;
 import com.example.candidateservice.entity.Direction;
 import com.example.candidateservice.entity.Test;
+import com.example.candidateservice.exeption.ResourceNotFoundException;
 import com.example.candidateservice.mapper.request.TestCreateMapper;
 import com.example.candidateservice.mapper.response.TestResponseMapper;
 import com.example.candidateservice.repository.DirectionRepository;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -22,6 +22,8 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class TestService implements SortAndPaginate {
+
+    private static final String TEST_DOMAIN = "Test";
 
     private final TestRepository testRepository;
 
@@ -51,7 +53,7 @@ public class TestService implements SortAndPaginate {
             updatetTest.setDirections(directions);
             return toDto(testRepository.save(updatetTest));
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(TEST_DOMAIN, id);
     }
 
     @Transactional
@@ -60,7 +62,7 @@ public class TestService implements SortAndPaginate {
         if (test.isPresent()) {
             return toDto(test.get());
         }
-        else throw new NoSuchElementException();
+        else throw new ResourceNotFoundException(TEST_DOMAIN, id);
     }
 
     @Transactional
