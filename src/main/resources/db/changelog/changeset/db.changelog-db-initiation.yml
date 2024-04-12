@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-table-candidate
+      id: create_candidate_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -11,7 +11,6 @@ databaseChangeLog:
                   type: bigserial
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: description
                   type: varchar(255)
@@ -40,7 +39,7 @@ databaseChangeLog:
                   type: bytea
 
   - changeSet:
-      id: create-table-candidate-test
+      id: create_candidate_test_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -64,13 +63,12 @@ databaseChangeLog:
                   type: bigserial
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: test_id
                   type: bigint
 
   - changeSet:
-      id: create-table-direction
+      id: create_direction_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -81,7 +79,6 @@ databaseChangeLog:
                   type: bigserial
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: description
                   type: varchar(255)
@@ -94,7 +91,7 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: create-table-direction-candidate
+      id: create_direction_candidate_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -110,14 +107,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-            primaryKey:
-              name: pk_direction_candidate
-              columnNames:
-                - candidate_id
-                - direction_id
+            constraints:
+              - primaryKey:
+                  columnNames: "candidate_id, direction_id"
 
   - changeSet:
-      id: create-table-direction-test
+      id: create_direction_test_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -133,14 +128,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-            primaryKey:
-              name: pk_direction_test
-              columnNames:
-                - direction_id
-                - test_id
+            constraints:
+              - primaryKey:
+                  columnNames: "direction_id, test_id"
 
   - changeSet:
-      id: create-table-test
+      id: create_test_table
       author: Ilyutsik Andrei
       changes:
         - createTable:
@@ -151,7 +144,6 @@ databaseChangeLog:
                   type: bigserial
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: description
                   type: varchar(255)
@@ -164,59 +156,68 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: add-foreign-keys
+      id: add_foreign_keys
       author: Ilyutsik Andrei
       changes:
         - addForeignKeyConstraint:
             baseTableName: candidate_test
+            constraintName: FKplui0n7u003vi62timvv3uu8d
+            referencedTableName: candidate
             baseColumnNames:
               - candidate_id
-            referencedTableName: candidate
             referencedColumnNames:
               - id
-            constraintName: FKplui0n7u003vi62timvv3uu8d
-
         - addForeignKeyConstraint:
             baseTableName: candidate_test
+            constraintName: FKc73hlfwef3vtfnou0lgtwqi3a
+            referencedTableName: test
             baseColumnNames:
               - test_id
-            referencedTableName: test
             referencedColumnNames:
               - id
-            constraintName: FKc73hlfwef3vtfnou0lgtwqi3a
-
         - addForeignKeyConstraint:
             baseTableName: direction_candidate
+            constraintName: FKndflrd4s6c8rrl3d8kfdu2lqq
+            referencedTableName: direction
             baseColumnNames:
               - direction_id
-            referencedTableName: direction
             referencedColumnNames:
               - id
-            constraintName: FKndflrd4s6c8rrl3d8kfdu2lqq
-
         - addForeignKeyConstraint:
             baseTableName: direction_candidate
+            constraintName: FKmskx5qgffi3fh8dsdh6b181m0
+            referencedTableName: candidate
             baseColumnNames:
               - candidate_id
-            referencedTableName: candidate
             referencedColumnNames:
               - id
-            constraintName: FKmskx5qgffi3fh8dsdh6b181m0
-
         - addForeignKeyConstraint:
             baseTableName: direction_test
+            constraintName: FKfcq0u0np3ck8622au29me4tps
+            referencedTableName: direction
             baseColumnNames:
               - direction_id
-            referencedTableName: direction
             referencedColumnNames:
               - id
-            constraintName: FKfcq0u0np3ck8622au29me4tps
-
         - addForeignKeyConstraint:
             baseTableName: direction_test
+            constraintName: FK3jmw3e97resbs6e9d5iajuxy2
+            referencedTableName: test
             baseColumnNames:
               - test_id
-            referencedTableName: test
             referencedColumnNames:
               - id
-            constraintName: FK3jmw3e97resbs6e9d5iajuxy2
+
+
+# create table candidate (id bigserial not null, description varchar(255) not null, father_name varchar(255) not null, first_name varchar(255) not null, last_name varchar(255) not null, cv bytea, photo bytea, primary key (id))
+#create table candidate_test (date date not null, score integer not null, candidate_id bigint unique, id bigserial not null, test_id bigint unique, primary key (id))
+#create table direction (id bigserial not null, description varchar(255) not null, name varchar(255) not null, primary key (id))
+# create table direction_candidate (candidate_id bigint not null, direction_id bigint not null, primary key (candidate_id, direction_id))
+# create table direction_test (direction_id bigint not null, test_id bigint not null, primary key (direction_id, test_id))
+# create table test (id bigserial not null, description varchar(255) not null, name varchar(255) not null, primary key (id))
+# alter table if exists candidate_test add constraint FKplui0n7u003vi62timvv3uu8d foreign key (candidate_id) references candidate
+# alter table if exists candidate_test add constraint FKc73hlfwef3vtfnou0lgtwqi3a foreign key (test_id) references test
+# alter table if exists direction_candidate add constraint FKndflrd4s6c8rrl3d8kfdu2lqq foreign key (direction_id) references direction
+# alter table if exists direction_candidate add constraint FKmskx5qgffi3fh8dsdh6b181m0 foreign key (candidate_id) references candidate
+# alter table if exists direction_test add constraint FKfcq0u0np3ck8622au29me4tps foreign key (direction_id) references direction
+# alter table if exists direction_test add constraint FK3jmw3e97resbs6e9d5iajuxy2 foreign key (test_id) references test

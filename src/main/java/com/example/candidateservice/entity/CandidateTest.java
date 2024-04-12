@@ -1,13 +1,6 @@
 package com.example.candidateservice.entity;
 
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,18 +21,18 @@ public class CandidateTest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
+    @OneToOne
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
     private Candidate candidate;
 
-    @ManyToOne
-    @JoinColumn(name = "test_id")
+    @OneToOne
+    @JoinColumn(name = "test_id", referencedColumnName = "id")
     private Test test;
 
     @Column(nullable = false)
     private LocalDate date;
 
     @Column(nullable = false)
-    private int score;
+    private Integer score;
 
 }

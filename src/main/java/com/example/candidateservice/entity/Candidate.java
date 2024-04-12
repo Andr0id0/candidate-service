@@ -1,9 +1,7 @@
 package com.example.candidateservice.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-
 
 import java.util.Set;
 
@@ -12,6 +10,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Candidate {
@@ -29,13 +28,11 @@ public class Candidate {
     @Column(nullable = false)
     private String fatherName;
 
-//    @Lob
     private byte[] photo;
 
     @Column(nullable = false)
     private String description;
 
-//    @Lob
     private byte[] CV;
 
     @ManyToMany
@@ -44,5 +41,8 @@ public class Candidate {
             joinColumns = @JoinColumn(name = "candidate_id"),
             inverseJoinColumns = @JoinColumn(name = "direction_id"))
     private Set<Direction> directions;
+
+    @OneToOne(mappedBy = "candidate")
+    private CandidateTest candidateTest;
 
 }

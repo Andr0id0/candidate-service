@@ -1,7 +1,6 @@
 package com.example.candidateservice.controller;
 
-
-import com.example.candidateservice.dto.Response.CandidateResponseDto;
+import com.example.candidateservice.dto.response.CandidateResponseDto;
 import com.example.candidateservice.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -121,7 +121,7 @@ public class CandidateController {
     }
 
     @GetMapping("/findByDirectionsId")
-    private ResponseEntity<List<CandidateResponseDto>> findBy(@RequestParam(defaultValue = "0") int page,
+    private ResponseEntity<List<CandidateResponseDto>> findByDirectionsId(@RequestParam(defaultValue = "0") int page,
                                                      @RequestParam(defaultValue = "25") int size,
                                                      @RequestParam(required = false) String sortField,
                                                      @RequestParam(required = false) String sortType,

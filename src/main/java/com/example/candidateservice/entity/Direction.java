@@ -9,8 +9,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ManyToMany;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
+
 
 @Builder
 @Table(name = "direction")
@@ -32,7 +32,7 @@ public class Direction {
     private String description;
 
     @ManyToMany(mappedBy = "directions")
-    private List<Candidate> candidates;
+    private Set<Candidate> candidates;
 
     @ManyToMany(mappedBy = "directions")
     private Set<Test> tests;

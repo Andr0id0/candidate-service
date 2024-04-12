@@ -1,5 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/changeset/db.changelog-db-initiation.yml
-#  - include:
-#      file: db/changelog/changeset/db.changelog-db-add-test.yml
+  - include:
+      file: db/changelog/changeset/db.changelog-db-add-test.yml

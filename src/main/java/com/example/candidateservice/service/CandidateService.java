@@ -1,12 +1,11 @@
 package com.example.candidateservice.service;
 
-
-import com.example.candidateservice.dto.Request.CandidateCreateDto;
-import com.example.candidateservice.dto.Response.CandidateResponseDto;
+import com.example.candidateservice.dto.request.CandidateCreateDto;
+import com.example.candidateservice.dto.response.CandidateResponseDto;
 import com.example.candidateservice.entity.Candidate;
 import com.example.candidateservice.entity.Direction;
-import com.example.candidateservice.mapper.CandidateCreateMapper;
-import com.example.candidateservice.mapper.CandidateResponseMapper;
+import com.example.candidateservice.mapper.request.CandidateCreateMapper;
+import com.example.candidateservice.mapper.response.CandidateResponseMapper;
 import com.example.candidateservice.repository.CandidateRepository;
 import com.example.candidateservice.repository.DirectionRepository;
 import com.example.candidateservice.util.SortAndPaginate;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -39,7 +37,7 @@ public class CandidateService implements SortAndPaginate {
     public CandidateResponseDto createCandidate(String lastName, String firstName, String fatherName, MultipartFile photo,
                                               String description, MultipartFile CV, Set<Long> directionsId) throws IOException {
         CandidateCreateDto candidateCreateDto  = new CandidateCreateDto(lastName, firstName, fatherName, photo.getBytes(), description, CV.getBytes(), directionsId);
-        Candidate candidate = candidateCreateMapper.toEntity(candidateCreateDto);
+        Candidate candidate = toEntity(candidateCreateDto);
         Set<Direction> directions = directionRepository.findAllByIdIn(directionsId);
         candidate.setDirections(directions);
         return toDto(candidateRepository.save(candidate));
@@ -61,7 +59,6 @@ public class CandidateService implements SortAndPaginate {
             Set<Direction> directions = directionRepository.findAllByIdIn(directionsId);
             updatetCandidate.setDirections(directions);
             return toDto(candidateRepository.save(updatetCandidate));
-
         }
         else throw new NoSuchElementException();
     }
@@ -120,24 +117,19 @@ public class CandidateService implements SortAndPaginate {
     @Transactional
     public List<CandidateResponseDto> findCandidatesByDirections(int pageNumber, int pageSize, String sortField, String sortType, Set<Long> directionsId) {
         var pageable = getCustomPageRequest(pageNumber, pageSize, sortField, sortType);
-        Set<Direction> directions = directionsId.stream()
-                .map(id -> Direction.builder().id(id).build())
-                .collect(Collectors.toSet());
-        return toDtoList(candidateRepository.findByDirections(directions, pageable));
+        return toDtoList(candidateRepository.findByDirections(directionsId, pageable));
     }
 
-    private final CandidateResponseDto toDto(Candidate candidate) {
+    private CandidateResponseDto toDto(Candidate candidate) {
         return candidateResponseMapper.toDto(candidate);
     }
 
-    private final List<CandidateResponseDto> toDtoList(List<Candidate> candidate) {
+    private List<CandidateResponseDto> toDtoList(List<Candidate> candidate) {
         return candidate.stream().map(candidateResponseMapper::toDto).toList();
     }
 
-    private final Candidate toEntity(CandidateCreateDto candidateCreateDto) {
+    private Candidate toEntity(CandidateCreateDto candidateCreateDto) {
         return candidateCreateMapper.toEntity(candidateCreateDto);
     }
-
-
 
 }

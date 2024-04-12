@@ -1,13 +1,13 @@
 package com.example.candidateservice.repository;
 
 import com.example.candidateservice.entity.Candidate;
-import com.example.candidateservice.entity.Direction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
+
 
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
@@ -24,6 +24,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     List<Candidate> findByCV(byte[] CV, Pageable pageable);
 
-    List<Candidate> findByDirections(Set<Direction> directions, Pageable pageable);
+    List<Candidate> findByDirections(Set<Long> directionsId, Pageable pageable);
+
+    Set<Candidate> findAllByIdIn(Set<Long> candidateId);
 
 }

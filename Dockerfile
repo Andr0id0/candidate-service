@@ -1,8 +1,10 @@
-FROM maven:3.6.3-jdk-11 AS build
-COPY . /app
+FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
-RUN mvn clean package
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
 FROM openjdk:21-jdk
-COPY --from=build /app/target/*.jar /app.jar
-CMD ["java", "-jar", "/app.jar"]
+EXPOSE 8080
+COPY --from=build /app/target/candidate-service-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]

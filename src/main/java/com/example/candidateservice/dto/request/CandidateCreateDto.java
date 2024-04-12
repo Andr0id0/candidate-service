@@ -1,10 +1,10 @@
-package com.example.candidateservice.dto.Request;
-
+package com.example.candidateservice.dto.request;
 
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
+
 
 @Getter
 @Setter

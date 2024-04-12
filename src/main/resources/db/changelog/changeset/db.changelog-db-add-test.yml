@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_test_data
+      author: Ilyutsik Andrei
+      changes:
+        - sql:
+            sql: INSERT INTO test (description, name) VALUES ('test to check starting front tenders', 'Frontender test');
+        - sql:
+            sql: INSERT INTO direction (description, name) VALUES ('front part of the website', 'Frontend');
+        - sql:
+            sql: INSERT INTO candidate (description, father_name, first_name, last_name, cv, photo) VALUES ('Description1', 'Sergeevich', 'Andrei', 'Ilyutsik', 'cv_data_1', 'photo_data_1');
+
+
+  - changeSet:
+      id: insert_candidate_test_data
+      author: Ilyutsik Andrei
+      changes:
+        - sql:
+            sql: INSERT INTO candidate_test (date, score, candidate_id, test_id) VALUES ('2024-04-12', 80, 1, 1);
+
+  - changeSet:
+      id: insert_direction_candidate_data
+      author: Ilyutsik Andrei
+      changes:
+        - sql:
+            sql: INSERT INTO direction_candidate (candidate_id, direction_id) VALUES (1, 1);
+
+  - changeSet:
+      id: insert_direction_test_data
+      author: Ilyutsik Andrei
+      changes:
+        - sql:
+            sql: INSERT INTO direction_test (direction_id, test_id) VALUES (1, 1);

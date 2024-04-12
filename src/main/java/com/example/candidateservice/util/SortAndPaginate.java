@@ -3,6 +3,7 @@ package com.example.candidateservice.util;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+
 public interface SortAndPaginate {
 
     default PageRequest getCustomPageRequest(int page, int size, String sortField, String sortType) {

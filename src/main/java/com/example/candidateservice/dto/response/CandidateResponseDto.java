@@ -1,9 +1,10 @@
-package com.example.candidateservice.dto.Response;
+package com.example.candidateservice.dto.response;
 
-import com.example.candidateservice.entity.Direction;
 import lombok.*;
 
+import java.io.File;
 import java.util.Set;
+
 
 @Getter
 @Setter
@@ -20,12 +21,12 @@ public class CandidateResponseDto {
 
     private String fatherName;
 
-    private byte[] photo;
+    private File photo;
 
     private String description;
 
-    private byte[] CV;
+    private File CV;
 
-    private Set<Direction> directions;
+    private Set<Long> directionsId;
 
 }
