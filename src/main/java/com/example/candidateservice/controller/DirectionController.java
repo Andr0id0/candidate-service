@@ -50,7 +50,7 @@ public class DirectionController {
         return ResponseEntity.ok(direction);
     }
 
-    @GetMapping("/findByLastName")
+    @GetMapping("/findByName")
     private ResponseEntity<List<DirectionResponseDto>> findByName(@RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "25") int size,
                                                                       @RequestParam(required = false) String sortField,
